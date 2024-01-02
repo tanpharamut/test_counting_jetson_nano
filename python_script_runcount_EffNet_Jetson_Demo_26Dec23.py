@@ -31,7 +31,7 @@ import cv2
 from yolo_v3 import Yolo_v3
 from utils import load_images, load_class_names, draw_boxes, draw_frame
 
-os.chdir('/media/jetson/data/code/drawbox_ui/test_count_jetson')
+os.chdir('/media/jetson/data/code/drawbox_ui/Main-forjetson')
 _MODEL_SIZE = (416, 416)
 _CLASS_NAMES_FILE = './data/labels/coco.names'
 _MAX_OUTPUT_SIZE = 20
@@ -56,7 +56,7 @@ def main(type, input_names, model, class_names, n_classes, detections, saver):
     if type == 'images':
         batch = load_images(input_names, model_size=_MODEL_SIZE)
         with tf.Session() as sess:
-            saver.restore(sess, '/media/jetson/data/code/drawbox_ui/test_count_jetson/weights/model.ckpt')
+            saver.restore(sess, '/media/jetson/data/code/drawbox_ui/Main-forjetson/weights/model.ckpt')
             detection_result = sess.run(detections, feed_dict={inputs: batch})
 
 
@@ -162,8 +162,8 @@ def counting_people(path, second, fps, dff, path_folder, img_save):
                                     'category':result[2], 'category prob':result[3], 
                                     'distance':result[4], 'path_cerrent': img_path, 'path_before': img_path_old}])
                 result_count = result_count.append(df)
-                print(f'/media/jetson/data/code/drawbox_ui/test_count_jetson/result-csv/{img_path_}.csv')    
-                result_count.to_csv(f'/media/jetson/data/code/drawbox_ui/test_count_jetson/static/result-csv/{img_path_}.csv')
+                print(f'/media/jetson/data/code/drawbox_ui/Main-forjetson/static/result-csv/{img_path_}.csv')    
+                result_count.to_csv(f'/media/jetson/data/code/drawbox_ui/Main-forjetson/static/result-csv/{img_path_}.csv')
                 #img_path_old = savepath+img_name
                 
     # for img_path in images_to_delete:
@@ -290,7 +290,7 @@ if __name__ == "__main__":
             img_save = args.img_save
 
             img_path_ = img_path.split('/')[-1]
-            path_folder = f'/media/jetson/data/code/drawbox_ui/test_count_jetson/static/output_images/{img_path_}/'
+            path_folder = f'/media/jetson/data/code/drawbox_ui/Main-forjetson/static/output_images/{img_path_}/'
             #path_folder = f'./static/output_images/{img_path_}/'
             if not os.path.exists(path_folder):
                 os.mkdir(path_folder)
@@ -299,7 +299,7 @@ if __name__ == "__main__":
     
             import pandas as pd 
             import os
-            dff = pd.read_csv(f'/media/jetson/data/code/drawbox_ui/test_count_jetson/static/output/{ip_address}.csv') #area box
+            dff = pd.read_csv(f'/media/jetson/data/code/drawbox_ui/Main-forjetson/static/output/{ip_address}.csv') #area box
             #dff = pd.read_csv(f'./static/output/{ip_address}.csv') #area box
             #os.chdir('/media/hdd/code/VDO-DEMO-BearHouse/Counting-People/')# -----------------------แก้ save cut video
             ##################### แก้ 
