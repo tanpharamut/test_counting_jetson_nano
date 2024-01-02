@@ -289,7 +289,7 @@ if __name__ == "__main__":
             second = args.second
             img_save = args.img_save
 
-            img_path_ = img_path.split('/')[-1]
+            img_path_ = path.split('/')[-1]
             path_folder = f'/media/jetson/data/code/drawbox_ui/Main-forjetson/static/output_images/{img_path_}/'
             #path_folder = f'./static/output_images/{img_path_}/'
             if not os.path.exists(path_folder):
