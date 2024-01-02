@@ -128,7 +128,7 @@ def counting_people(path, second, fps, dff, path_folder, img_save):
                 img_crop = img[int(id_0['Ymin']):int(id_0['Ymax']), int(id_0['Xmin']):int(id_0['Xmax'])]
                 print(img_crop.shape)
 
-                path_new = path_folder+'/person_'+ str(per)+'_'+str(stratf)+'_'+ str(date.strftime("%H-%M-%S"))
+                path_new = path_folder+'/person_'+ str(per)+'_'+ str(date.strftime("%H-%M-%S"))
                 if not os.path.exists(path_new):
                     os.makedirs(path_new)
                 savepath = path_new +'/'
