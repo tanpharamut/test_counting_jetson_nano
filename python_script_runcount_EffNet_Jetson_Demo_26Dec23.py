@@ -151,7 +151,7 @@ def counting_people(path, second, fps, dff, path_folder, img_save):
 
                 import requests
                 import json
-                url = 'http://10.177.191.30:5007/request'  
+                url = 'http://192.168.31.210:5007/request'  
                 myobj = {'img_path': img_path,
                             'see': see,
                             'per': per}
