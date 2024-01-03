@@ -172,9 +172,7 @@ def counting_people(path, second, fps, dff, path_folder, img_save):
     #         print(f"Deleted: {img_path}")
     #     except OSError as e:
     #         print(f"Error deleting {img_path}: {e}")
-            
-    totalclip = totalclip + totalR                  
-    print(totalclip) 
+                
     done = f"Counting have been saved successfully."
     return done
 
