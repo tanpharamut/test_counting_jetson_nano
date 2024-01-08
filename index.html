@@ -1,0 +1,383 @@
+<!DOCTYPE html>
+
+<head>
+    <title>Index_Test</title>
+    <meta charset="UTF-8">
+    <meta http-equiv="X-UA-Compatible" content="IE-edge">
+    <meta name="viewport" content="width=device-width,
+    initial-scale=1.0">
+    <link rel="stylesheet" href="{{ url_for('static', filename='stylesheet/style_index.css') }}">
+    <link rel="stylesheet" href="https://stackpath.bootstrapcdn.com/bootstrap/4.3.1/css/bootstrap.min.css">
+</head>
+
+<body>
+    <div class="wrapper">
+        <div class="head-top">
+            <h2>CCTV_TEST02</h2>
+        </div>
+
+        <div class = "box">
+            <div class = "fix-row">
+                <form action="/submit1" method="post">
+                    <div class="box-ft">
+                        <a href="#divOne_c1" class="button-ft">Function</a>
+                    </div>
+                    <div class="fields">
+                        <div class="input-field">
+                            <label for="username1">Username01</label><br>
+                            <input type="text" id="username1" name="username1" placeholder="Enter username of camera" value="{{ last_data1['Username'] if last_data1 is not none else '' }}" required >
+                        </div>
+                        <div class="input-field">
+                            <label for="password1">Password</label><br>
+                            <input type="password" id="password1" name="password1" placeholder="Enter password of camera" value="{{ last_data1['Password'] if last_data1 is not none else '' }}" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="name1">Name</label><br>
+                            <input type="text" id="name1" name="name1" placeholder="Enter Name of camera" value="{{ last_data1['Name'] if last_data1 is not none else '' }}" required>
+                        </div>
+                        <div class="input-field">
+                            <label for="ip1">IP</label><br>
+                            <input type="text" id="ip1" name="ip1" placeholder="Enter IP of camera" value="{{ last_data1['IP'] if last_data1 is not none else '' }}" required>
+                        </div>
+                        <div class="box-field">
+                            <label>Box</label><br>
+                            {% if draw_status and last_data1 is not none %}
+                                <a href="/label_edit" class="btn btn-outline-warning">Edit</a>
+                            {% else %}
+                                <button class="btn btn-outline-primary" name="draw" value="true" >Draw</button>
+                            {% endif %}
+                        </div>
+                        <div class="submit-another">
+                            <br>
+                            <input type="submit" class="btn btn-outline-success" value="Submit">
+                            <button type="button" class="btn btn-danger delete-btn" onclick="deleteRow(0)">x</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class = "fix-row">
+                <form action="/submit2" method="post">
+                    <div class="box-ft">
+                        <a href="#divOne_c2" class="button-ft">Function</a>
+                    </div>
+                    <div class="fields2">
+                        <div class="input-field">
+                            <label for="username2">Username02</label><br>
+                            <input type="text" id="username2" name="username2" placeholder="Enter username of camera" value="{{ last_data2['Username'] if last_data2 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="password2">Password</label><br>
+                            <input type="password" id="password2" name="password2" placeholder="Enter password of camera" value="{{ last_data2['Password'] if last_data2 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="name2">Name</label><br>
+                            <input type="text" id="name2" name="name2" placeholder="Enter Name of camera" value="{{ last_data2['Name'] if last_data2 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="ip2">IP</label><br>
+                            <input type="text" id="ip2" name="ip2" placeholder="Enter IP of camera" value="{{ last_data2['IP'] if last_data2 is not none else '' }}">
+                        </div>
+                        <div class="box-field">
+                            <label>Box</label><br>
+                            {% if draw_status and last_data2 is not none %}
+                                <a href="/label_edit2" class="btn btn-outline-warning">Edit</a>
+                            {% else %}
+                                <button class="btn btn-outline-primary" type="submit" name="draw" value="true" >Draw</button>
+                            {% endif %}
+                        </div>
+                        <div class="submit-another">
+                            <br>
+                            <input type="submit" class="btn btn-outline-success" value="Submit">
+                            <button type="button" class="btn btn-danger delete-btn" onclick="deleteRow(1)">x</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class = "fix-row">
+                <form action="/submit3" method="post">
+                    <div class="box-ft">
+                        <a href="#divOne" class="button-ft">Function</a>
+                    </div>
+                    <div class="fields3">
+                        <div class="input-field">
+                            <label for="username3">Username03</label><br>
+                            <input type="text" id="username3" name="username3" placeholder="Enter username of camera" value="{{ last_data3['Username'] if last_data3 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="password3">Password</label><br>
+                            <input type="password" id="password3" name="password3" placeholder="Enter password of camera" value="{{ last_data3['Password'] if last_data3 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="name3">Name</label><br>
+                            <input type="text" id="name3" name="name3" placeholder="Enter Name of camera" value="{{ last_data3['Name'] if last_data3 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="ip3">IP</label><br>
+                            <input type="text" id="ip3" name="ip3" placeholder="Enter IP of camera" value="{{ last_data3['IP'] if last_data3 is not none else '' }}">
+                        </div>
+                        <div class="box-field">
+                            <label>Box</label><br>
+                            {% if draw_status and last_data3 is not none %}
+                                <a href="/label_edit3" class="btn btn-outline-warning">Edit</a>
+                            {% else %}
+                                <button class="btn btn-outline-primary" type="submit" name="draw" value="true" >Draw</button>
+                            {% endif %}
+                        </div>
+                        <div class="submit-another">
+                            <br>
+                            <input type="submit" class="btn btn-outline-success" value="Submit">
+                            <button type="button" class="btn btn-danger delete-btn" onclick="deleteRow(2)">x</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class = "fix-row">
+                <form action="/submit4" method="post">
+                    <div class="box-ft">
+                        <a href="#divOne" class="button-ft">Function</a>
+                    </div>
+                    <div class="fields4">
+                        <div class="input-field">
+                            <label for="username4">Username04</label><br>
+                            <input type="text" id="username4" name="username4" placeholder="Enter username of camera" value="{{ last_data4['Username'] if last_data4 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="password4">Password</label><br>
+                            <input type="password" id="password4" name="password4" placeholder="Enter password of camera" value="{{ last_data4['Password'] if last_data4 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="name4">Name</label><br>
+                            <input type="text" id="name4" name="name4" placeholder="Enter Name of camera" value="{{ last_data4['Name'] if last_data4 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="ip4">IP</label><br>
+                            <input type="text" id="ip4" name="ip4" placeholder="Enter IP of camera" value="{{ last_data4['IP'] if last_data4 is not none else '' }}">
+                        </div>
+                        <div class="box-field">
+                            <label>Box</label><br>
+                            {% if draw_status and last_data4 is not none %}
+                                <a href="/label_edit4" class="btn btn-outline-warning">Edit</a>
+                            {% else %}
+                                <button class="btn btn-outline-primary" type="submit" name="draw" value="true" >Draw</button>
+                            {% endif %}
+                        </div>
+                        <div class="submit-another">
+                            <br>
+                            <input type="submit" class="btn btn-outline-success" value="Submit">
+                            <button type="button" class="btn btn-danger delete-btn" onclick="deleteRow(3)">x</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+
+            <div class = "fix-row">
+                <form action="/submit5" method="post">
+                    <div class="box-ft">
+                        <a href="#divOne" class="button-ft">Function</a>
+                    </div>
+                    <div class="fields5">
+                        <div class="input-field">
+                            <label for="username5">Username05</label><br>
+                            <input type="text" id="username5" name="username5" placeholder="Enter username of camera" value="{{ last_data5['Username'] if last_data5 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="password5">Password</label><br>
+                            <input type="password" id="password5" name="password5" placeholder="Enter password of camera" value="{{ last_data5['Password'] if last_data5 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="name5">Name</label><br>
+                            <input type="text" id="name5" name="name5" placeholder="Enter Name of camera" value="{{ last_data5['Name'] if last_data5 is not none else '' }}">
+                        </div>
+                        <div class="input-field">
+                            <label for="ip5">IP</label><br>
+                            <input type="text" id="ip5" name="ip5" placeholder="Enter IP of camera" value="{{ last_data5['IP'] if last_data5 is not none else '' }}">
+                        </div>
+                        <div class="box-field">
+                            <label>Box</label><br>
+                            {% if draw_status and last_data5 is not none %}
+                                <a href="/label_edit5" class="btn btn-outline-warning">Edit</a>
+                            {% else %}
+                                <button class="btn btn-outline-primary" type="submit" name="draw" value="true" >Draw</button>
+                            {% endif %}
+                        </div>
+                        <div class="submit-another">
+                            <br>
+                            <input type="submit" class="btn btn-outline-success" value="Submit">
+                            <button type="button" class="btn btn-danger delete-btn" onclick="deleteRow(4)">x</button>
+                        </div>
+                    </div>
+                </form>
+            </div>
+        </div>
+    </div>
+    <div class="overlay" id="divOne_c1">
+        <div class="wrapper-top">
+            <h2>Camera01 <br >Select function</h2>
+            <a href="#" class="close">&times;</a>
+            <div class="content">
+                <div class="container">
+                    <form action="/upload_function_c1" method="post" enctype="multipart/form-data">
+                        <div class="box-cg">
+                            <input type="checkbox" id="congun" name="function_c1" value="congun" {% if 'congun' in selected_functions_c1 %}checked{% endif %}>
+                            <a href="#divOne2_c1" class="button-cg">ConGun</a>
+                        </div>
+                        <div class="box-cp">
+                            <input type="checkbox" id="count-people" name="function_c1" value="count-people" {% if 'count-people' in selected_functions_c1 %}checked{% endif %}>
+                            <a href="#divOne4_c1" class="button-cp">Count People</a>
+                        </div>
+                        <div class="box-sm">
+                            <input type="submit" class="submit-su" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="overlay" id="divOne2_c1">
+        <div class="wrapper-top">
+        <a href="#divOne_c1" class="go-back">Go Back</a>
+        <h2>ConGun</h2>
+        <a href="#" class="close">&times;</a>
+        <div class="content">
+            <div class="container">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div class="box-su">
+                    <a href="#divOne3_c1" class="button-su">Set up</a>
+                </div>
+                <div class="box-gs">
+                    <a href="/Sheets" class="button-gs" target="_blank">Data Analytics</a>
+                </div>  
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="overlay" id="divOne3_c1">
+        <div class="wrapper-top">
+        <a href="#divOne2_c1" class="go-back">Go Back</a>
+        <h2>Please Set up google sheet</h2>
+        <a href="#" class="close">&times;</a>
+        <div class="content">
+            <div class="container">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label class="label-su">Name of Google sheets</label>
+                <input type="text" class="text-su" name="sheet_name" placeholder="Your Google sheets Name">
+                <label class="label-su">Link of Google sheets</label>
+                <input type="text" class="text-su" name="sheet_link" placeholder="Your Google sheets Link">
+                <label class="label-su">Upload cred.js file</label>
+                <div class= "box-sm-su">
+                    <input type="file" name="file">
+                    <input type="submit" class="submit-su" value="Submit">
+                </div>    
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="overlay" id="divOne4_c1">
+        <div class="wrapper-top">
+        <a href="#divOne_c1" class="go-back">Go Back</a>
+        <h2>Count People</h2>
+        <a href="#" class="close">&times;</a>
+        <div class="content">
+            <div class="container">
+                <div class="box-gs">
+                    <a href="/old_dash1?cs=hour" class="button-gs" target="_blank">Show hour</a>
+                </div>
+                <div class="box-gs">
+                    <a href="/old_dash1?cs=day" class="button-gs" target="_blank">Show day</a>
+                </div>  
+            </div>
+        </div>        
+        </div>
+    </div>
+    <div class="overlay" id="divOne_c2">
+        <div class="wrapper-top">
+            <h2>Camera02 <br >Select function</h2>
+            <a href="#" class="close">&times;</a>
+            <div class="content">
+                <div class="container">
+                    <form action="/upload_function_c2" method="post" enctype="multipart/form-data">
+                        <div class="box-cg">
+                            <input type="checkbox" id="congun" name="function_c2" value="congun" {% if 'congun' in selected_functions_c2 %}checked{% endif %}>
+                            <a href="#divOne2_c2" class="button-cg">ConGun</a>
+                        </div>
+                        <div class="box-cp">
+                            <input type="checkbox" id="count-people" name="function_c2" value="count-people" {% if 'count-people' in selected_functions_c2 %}checked{% endif %}>
+                            <a href="#divOne4_c2" class="button-cp">Count People</a>
+                        </div>
+                        <div class="box-sm">
+                            <input type="submit" class="submit-su" value="Submit">
+                        </div>
+                    </form>
+                </div>
+            </div>
+        </div>
+    </div> 
+    <div class="overlay" id="divOne2_c2">
+        <div class="wrapper-top">
+        <a href="#divOne_c2" class="go-back">Go Back</a>
+        <h2>ConGun</h2>
+        <a href="#" class="close">&times;</a>
+        <div class="content">
+            <div class="container">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <div class="box-su">
+                    <a href="#divOne3_c2" class="button-su">Set up</a>
+                </div>
+                <div class="box-gs">
+                    <a href="/old_dash" class="button-gs" target="_blank">Data Analytics</a>
+                </div>  
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>
+    <div class="overlay" id="divOne3_c2">
+        <div class="wrapper-top">
+        <a href="#divOne2_c2" class="go-back">Go Back</a>
+        <h2>Please Set up google sheet</h2>
+        <a href="#" class="close">&times;</a>
+        <div class="content">
+            <div class="container">
+            <form action="/upload" method="post" enctype="multipart/form-data">
+                <label class="label-su">Name of Google sheets</label>
+                <input type="text" class="text-su" name="sheet_name" placeholder="Your Google sheets Name">
+                <label class="label-su">Link of Google sheets</label>
+                <input type="text" class="text-su" name="sheet_link" placeholder="Your Google sheets Link">
+                <label class="label-su">Upload cred.js file</label>
+                <div class= "box-sm-su">
+                    <input type="file" name="file">
+                    <input type="submit" class="submit-su" value="Submit">
+                </div>    
+            </form>
+            </div>
+        </div>
+        </div>
+    </div>   
+    <div class="overlay" id="divOne4_c2">
+        <div class="wrapper-top">
+        <a href="#divOne_c2" class="go-back">Go Back</a>
+        <h2>Count People</h2>
+        <a href="#" class="close">&times;</a>
+        <div class="content">
+            <div class="container">
+                <div class="container">
+                    <div class="box-gs">
+                        <a href="/old_dash2?cs=hour" class="button-gs" target="_blank">Show hour</a>
+                    </div>
+                    <div class="box-gs">
+                        <a href="/old_dash2?cs=day" class="button-gs" target="_blank">Show day</a>
+                    </div>  
+                </div> 
+            </div>
+        </div>
+        </div>
+    </div>
+    <script src="https://code.jquery.com/jquery-3.6.0.min.js"></script>
+    <script src="{{ url_for('static', filename='scriptsheet/script_index.js') }}"></script>
+</body>
+</html>
