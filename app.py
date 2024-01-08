@@ -5,6 +5,7 @@ import os
 import subprocess
 import io
 import glob
+import re
 import requests
 from moviepy.editor import VideoFileClip
 from time import sleep
@@ -65,6 +66,14 @@ if not os.path.isfile('static/status_function.csv'):
 
     # Save the DataFrame to 'data2.csv'
     dflink.to_csv('static/status_function.csv', index=False)
+
+# Check if the file exists
+if not os.path.isfile('static/status_client_side.csv'):
+    # Create an empty DataFrame with columns
+    dflink = pd.DataFrame(columns=['cs', 'row_num'])
+
+    # Save the DataFrame to 'data2.csv'
+    dflink.to_csv('static/status_client_side.csv', index=False)    
         
 if not os.path.isfile('static/Images_IP.csv'):
     # Create an empty DataFrame with columns
@@ -721,24 +730,157 @@ def sheets_video_list_c2():
     return render_template('sheet_old_videos_list_ui.html', data_to_display=data_to_display)
 
 
-#create_dash_application(app)
+create_dash_application(app)
 
 @app.route('/old_box_label')
 def old_box_label():
     return render_template('old_box_label.html')
 
-@app.route('/old_dash', methods=['GET', 'POST'])
-def old_dash():
+@app.route('/old_dash1', methods=['GET', 'POST'])
+def old_dash1():
     
-    ip = request.args.get('ip') 
-    file_name = request.args.get('file_name') 
-    final_result_csv_path = './static/final-result-csv/uploaded_video.csv'
-    path = './static/vid_storage/CCTV_Storage1/'
-    csvfile = f'{path}{ip}/_final_result/{file_name}'
+    existing_data = pd.read_csv('static/data2.csv')
+    ip_data1 = existing_data.loc[0, 'IP'] if not existing_data.empty else None
+    name_data1 = existing_data.loc[0, 'Name'] if not existing_data.empty else None
+    row_num = existing_data.index[0] if not existing_data.empty else None
+    print(row_num)
+    dff = pd.DataFrame(columns=['cs'])
+    client_side = request.args.get('cs') 
+    csv_filename = f'./static/status_client_side.csv'
+    dfclient_side = pd.read_csv(csv_filename)
+    row_data = {
+            'cs': client_side,
+            'row_num': row_num,
+        }
+    dfclient_side.loc[0] = row_data
+    dfclient_side.to_csv(csv_filename, mode='w', index=False)
     
-    df = pd.read_csv(csvfile)
-    df.to_csv(final_result_csv_path, index=True)
+    part = './static/result-csv'
+    pattern = f'{ip_data1}{name_data1}*'
+    full_pattern = os.path.join(part, pattern)
+    matching_files = glob.glob(full_pattern)
+    csvfiles = [os.path.join(file) for file in matching_files]
+    num_files = len(csvfiles)
+    print(f'The number of files in the list is: {num_files}')
+    
+    def get_duration_and_hour(month, day, hour):
+        if month == 9 and day in range(27, 31) and hour in range(10, 22):
+            return f'Sep {day} {"am" if hour < 12 else "pm"}', f'{hour}-{hour+1}.'
+        elif month == 10 and day in range(0, 9) and hour in range(10, 22):
+            return f'Oct {day} {"am" if hour < 12 else "pm"}', f'{hour}-{hour+1}.'
+        else:
+            return '', ''
+
+    dff = pd.DataFrame(columns=['Unnamed: 0', 'round', 'idp', 'count', 'gender', 'category', 'distance', 'duration', 'hour', 'csv_name'])
+
+    for i in csvfiles:
+        data = pd.read_csv(i)
         
+        # Extract the year, month, date, and hour from 'YYYYMMDDhh' format using regular expression
+        match = re.search(r'2023(\d{2})(\d{2})(\d{2})', i)
+        
+        if match:
+            month = int(match.group(1))
+            day = int(match.group(2))
+            hour = int(match.group(3))
+            
+            duration, hour_range = get_duration_and_hour(month, day, hour)
+            
+            data['duration'] = f'{duration}'
+            data['hour'] = f'{hour_range}'
+            data['csv_name'] = f'{i}'
+            
+        dff = dff.append(data)
+
+    dff.sort_values(by='csv_name', inplace=True)
+    tb = dff[['round', 'idp', 'duration', 'hour','count', 'gender', 'category', 'csv_name', 'distance', 'path']]
+    print(tb)
+    part_dash_csv = './static/final-result-csv/uploaded_video.csv'
+    tb.to_csv(part_dash_csv, index=True)
+
+    # ip = request.args.get('ip') 
+    # file_name = request.args.get('file_name') 
+    # final_result_csv_path = './static/final-result-csv/uploaded_video.csv'
+    # path = './static/vid_storage/CCTV_Storage1/'
+    # #csvfile = f'{path}{ip}/_final_result/{file_name}'
+    # csvfile = f'{path}192.168.31.20/_final_result/192.168.31.20_20230928_181942.csv'
+    
+    # df = pd.read_csv(csvfile)
+    # df.to_csv(final_result_csv_path, index=True)
+
+    return redirect('/dash/')
+
+@app.route('/old_dash2', methods=['GET', 'POST'])
+def old_dash2():
+    
+    existing_data = pd.read_csv('static/data2.csv')
+    ip_data2 = existing_data.loc[1, 'IP'] if not existing_data.empty else None
+    name_data2 = existing_data.loc[1, 'Name'] if not existing_data.empty else None
+    row_num = existing_data.index[1] if not existing_data.empty else None
+    print(row_num)
+    dff = pd.DataFrame(columns=['cs'])
+    client_side = request.args.get('cs') 
+    csv_filename = f'./static/status_client_side.csv'
+    dfclient_side = pd.read_csv(csv_filename)
+    row_data = {
+            'cs': client_side,
+            'row_num': row_num,
+        }
+    dfclient_side.loc[0] = row_data
+    dfclient_side.to_csv(csv_filename, mode='w', index=False)
+   
+    part = './static/result-csv'
+    pattern = f'{ip_data2}{name_data2}*'
+    full_pattern = os.path.join(part, pattern)
+    matching_files = glob.glob(full_pattern)
+    csvfiles = [os.path.join(file) for file in matching_files]
+    num_files = len(csvfiles)
+    print(f'The number of files in the list is: {num_files}')
+    def get_duration_and_hour(month, day, hour):
+        if month == 9 and day in range(27, 31) and hour in range(10, 22):
+            return f'Sep {day} {"am" if hour < 12 else "pm"}', f'{hour}-{hour+1}.'
+        elif month == 10 and day in range(0, 9) and hour in range(10, 22):
+            return f'Oct {day} {"am" if hour < 12 else "pm"}', f'{hour}-{hour+1}.'
+        else:
+            return '', ''
+
+    dff = pd.DataFrame(columns=['Unnamed: 0', 'round', 'idp', 'count', 'gender', 'category', 'distance', 'duration', 'hour', 'csv_name'])
+
+    for i in csvfiles:
+        data = pd.read_csv(i)
+        
+        # Extract the year, month, date, and hour from 'YYYYMMDDhh' format using regular expression
+        match = re.search(r'2023(\d{2})(\d{2})(\d{2})', i)
+        
+        if match:
+            month = int(match.group(1))
+            day = int(match.group(2))
+            hour = int(match.group(3))
+            
+            duration, hour_range = get_duration_and_hour(month, day, hour)
+            
+            data['duration'] = f'{duration}'
+            data['hour'] = f'{hour_range}'
+            data['csv_name'] = f'{i}'
+            
+        dff = dff.append(data)
+
+    dff.sort_values(by='csv_name', inplace=True)
+    tb = dff[['round', 'idp', 'duration', 'hour','count', 'gender', 'category', 'csv_name', 'distance', 'path']]
+    print(tb)
+    part_dash_csv = './static/final-result-csv/uploaded_video.csv'
+    tb.to_csv(part_dash_csv, index=True)
+
+    # ip = request.args.get('ip') 
+    # file_name = request.args.get('file_name') 
+    # final_result_csv_path = './static/final-result-csv/uploaded_video.csv'
+    # path = './static/vid_storage/CCTV_Storage1/'
+    # #csvfile = f'{path}{ip}/_final_result/{file_name}'
+    # csvfile = f'{path}192.168.31.20/_final_result/192.168.31.20_20230928_181942.csv'
+    
+    # df = pd.read_csv(csvfile)
+    # df.to_csv(final_result_csv_path, index=True)
+
     return redirect('/dash/')
 
 @app.route('/Sheets')
